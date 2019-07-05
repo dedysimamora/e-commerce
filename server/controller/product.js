@@ -31,6 +31,8 @@ class ProductController {
     }
 
     static create(req,res,next){
+        console.log(req.body);
+        
         let newProduct = {
             name: req.body.name,
             price: req.body.price,

@@ -1,7 +1,7 @@
 <template>
   <v-hover>
-    <v-card @click="moveToDetail(pd._id)" slot-scope="{ hover }" class="mx-auto" color="white" max-width="300">
-      <v-img :aspect-ratio="12/9" :src="pd.photo">
+    <v-card  slot-scope="{ hover }" class="mx-auto" color="white" max-width="300">
+      <v-img @click="moveToDetail(pd._id)" :aspect-ratio="12/9" :src="pd.photo">
         <v-expand-transition>
           <div
             v-if="hover"
@@ -11,7 +11,7 @@
         </v-expand-transition>
       </v-img>
       <v-card-text class="pt-4" style="position: relative;">
-        <v-btn @click="addToCart(pd)" absolute color="black" class="white--text" fab small right top>
+        <v-btn z-index="0" @click="addToCart(pd)" absolute color="black" class="white--text" fab small right top>
           <v-icon>shopping_cart</v-icon>
         </v-btn>
         <h5 class="font-weight-bold black--text  mb-1">{{pd.name}}</h5>

@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="400px">
       <template v-slot:activator="{ on }">
         <v-btn
-          color="black"
+          color="red"
           dark
           v-on="on"
         >
@@ -60,16 +60,22 @@
           <small class="red--text ml-3">{{errMesssage}}</small>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-layout column justif-center>
+
+          
           <v-flex xs12>
           <v-btn block @click="register()" small color="black" dark>register</v-btn>
           </v-flex>
-          <v-flex xs12>
+          <f-fxle xs12 class="mt-1">
+            <v-btn block @click="dialog = false" small color="black" dark>Cancel</v-btn>
+          </f-fxle>
+          </v-layout>
+          <!-- <v-flex xs12>
               <p>Or</p>
           </v-flex>
           <v-flex xs12>
             <GoogleLogin type="button" class="btn btn-primary mt-2"  :onSuccess="onSuccess" :onFailure="onFailure"> <i class="fab fa-google mr-2"></i> Google SignIn</GoogleLogin>
-          </v-flex>
+          </v-flex> -->
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -104,9 +110,9 @@ export default {
   methods: {
     onSuccess(googleUser){
             let id_token = googleUser.getAuthResponse().id_token
-            axios({
+           this.axios({
                 method: 'post',
-                url: 'http://localhost:3100/user/googlelogin',
+                url: '/user/googlelogin',
                 responseType: 'json',
                 data: {
                     token : id_token

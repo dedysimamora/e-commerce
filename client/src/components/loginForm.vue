@@ -3,12 +3,16 @@
     <v-dialog v-model="dialog" persistent max-width="400px">
       <template v-slot:activator="{ on }">
          <v-btn
-          color="black"
+          :style="{ color: warnaprops, 'background-color': bgcolorprops }"
           dark
           v-on="on"
         >
           Login
         </v-btn>
+
+        
+
+       
           <!-- <a class="clink"  v-on="on" >Login</a>  -->
         <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
       </template>
@@ -30,11 +34,14 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-layout column justify-center>
           <v-flex  xs12>
           <v-btn block @click="login()" small color="black" dark>Login</v-btn>
-
           </v-flex>
+          <f-fxle xs12 class="mt-1">
+            <v-btn block @click="dialog = false" small color="black" dark>Cancel</v-btn>
+          </f-fxle>
+          </v-layout>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -44,7 +51,7 @@
 <script>
 
   export default {
-    props:['asd'],
+    props:['warnaprops', 'bgcolorprops'],
     data: () => ({
       dialog: false,
       errMesssage : "",
@@ -52,6 +59,18 @@
       password : ""
     }),
     methods : {
+      googleLogin(){
+        this.$gAuth
+        .signIn()
+        .then(googleUser => {
+          //on success
+          // console.log("authCode", googleUser.Zi.id_token);
+          this.$store.dispatch('googlelogin', googleUser.Zi.id_token)
+        })
+        .catch(error => {
+          //on fail do something
+        });
+      },
       login(){
         this.axios({
         method: 'post',

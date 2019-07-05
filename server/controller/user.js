@@ -92,6 +92,9 @@ class UserController {
     }
 
     static googlelogin(req,res,next){
+        console.log(req.body);
+        
+        
         let userEmail = ""
         client.verifyIdToken({
             idToken: req.body.token,

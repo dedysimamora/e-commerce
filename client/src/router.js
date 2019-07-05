@@ -7,6 +7,11 @@ import Cart from './components/Cart.vue'
 import Profile from './components/ProfileSetting.vue'
 import Wishlist from './components/WishList.vue'
 import Topup from './components/TopUp.vue'
+import Admin from './views/Admin.vue'
+import Report from './components/Report.vue'
+import AddProduct from './components/AddProduct.vue'
+import EditProduct from './components/EditProduct.vue'
+
 import ProductDetails from './components/productDetails.vue'
 
 
@@ -18,9 +23,31 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/landing',
+      path: '/',
       name: 'landing',
       component: Landing
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      children : [
+        {
+          path: 'report',
+          name: 'report',
+          component: Report
+        },
+        {
+          path: 'addProduct',
+          name: 'addProduct',
+          component: AddProduct
+        },
+        {
+          path: 'editProduct',
+          name: 'editProduct',
+          component: EditProduct
+        }
+      ]
     },
     {
       path: '/',
@@ -28,32 +55,32 @@ export default new Router({
       component: Home,
       children : [
         {
-          path: '/products',
+          path: 'products',
           name: 'products',
           component: Products
         },
         {
-          path: '/cart',
+          path: 'cart',
           name: 'cart',
           component: Cart
         },
         {
-          path: '/profile',
+          path: 'profile',
           name: 'profile',
           component: Profile
         },
         {
-          path: '/wishlist',
+          path: 'wishlist',
           name: 'wishlist',
           component: Wishlist
         },
         {
-          path: '/topup',
+          path: 'topup',
           name: 'topup',
           component: Topup
         },
         {
-          path: '/products/:productId',
+          path: 'products/:productId',
           name: 'productDetails',
           component: ProductDetails
         }

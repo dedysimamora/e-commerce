@@ -1,6 +1,6 @@
 <template>
     <div>
-      <v-toolbar color="black" dark fixed app>
+      <v-toolbar height="35" z-index="9" color="black" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="font-weight-black">HackWatch</v-toolbar-title>
     </v-toolbar>
@@ -39,17 +39,23 @@
         </section>
 
         <v-layout justify-center row>
-          <v-flex v-if="this.$store.state.userProfile.token !== ''" xs10 md6>
+          <v-flex v-if="this.$store.state.userProfile.role === 'Admin'" xs10 md9>
+            <v-btn @click="toAdminDashboard" small dark color="black">ADMIN DASHBOARD</v-btn>
+          </v-flex>
+        </v-layout>
+
+        <v-layout justify-center row>
+          <v-flex v-if="this.$store.state.userProfile.token !== ''" xs10 md7>
             <v-btn @click="logout" dark color="black">Logout</v-btn>
           </v-flex>
           <v-flex v-else xs10 md6>
-            <loginForm ></loginForm>
+            <loginForm :warnaprops="'white'" :bgcolorprops="'black'" ></loginForm>
             </v-flex>
 
         </v-layout>
 
 
-        <v-layout v-if="this.$store.state.userProfile.token !== ''">
+        <v-layout v-if="this.$store.state.userProfile.token !== '' && this.$store.state.userProfile.role !== 'Admin'">
           <v-flex xs12 md12>
 
                  <v-list dense>
@@ -268,6 +274,9 @@ export default {
       logout(){
         this.$store.commit('logout')
         this.$router.push('/products')
+      },
+      toAdminDashboard(){
+          this.$router.push('/admin')
       }
   },
   components: {

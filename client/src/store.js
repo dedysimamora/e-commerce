@@ -46,13 +46,16 @@ export default new Vuex.Store({
       },
       fetchUserCard(state, userCart){
         state.cart = userCart
+      },
+      addNewProduct(state, singleProd){
+        state.allProducts.push(singleProd)
       }
   },
   actions: {
       getAllProducts(context){
         axios({
           method: 'get',
-          url: 'http://localhost:3000/product',
+          url: 'http://34.87.71.24/:3210/product',
           responseType: 'json',
           
         })
@@ -66,12 +69,12 @@ export default new Vuex.Store({
       getUserCart(context){
         let {commit, state} = context
         console.log(state.userProfile.id, "userid pas find card")
-        console.log(`http://localhost:3000/transaction/${state.userProfile.id}`, "link get find transsacion");
+        console.log(`http://34.87.71.24/:3210/transaction/${state.userProfile.id}`, "link get find transsacion");
         
         
         axios({
           method : 'get',
-          url: `http://localhost:3000/transaction/${state.userProfile.id}`,
+          url: `http://34.87.71.24/:3210/transaction/${state.userProfile.id}`,
           responseType: 'json',
         })
           .then(({data}) =>{
@@ -90,7 +93,7 @@ export default new Vuex.Store({
         
         axios({
           method : 'post',
-          url: 'http://localhost:3000/transaction/add',
+          url: 'http://34.87.71.24/:3210/transaction/add',
           responseType: 'json',
           data : {
             productId : payload
@@ -113,7 +116,7 @@ export default new Vuex.Store({
         let {state,dispatch} = context
         axios({
           method : 'delete',
-          url: `http://localhost:3000/transaction/${payload}`,
+          url: `http://34.87.71.24/:3210/transaction/${payload}`,
           responseType: 'json',
           headers : {
             token : state.userProfile.token
@@ -132,7 +135,7 @@ export default new Vuex.Store({
         let {state,dispatch} = context
         axios({
           method : 'post',
-          url: `http://localhost:3000/transaction/checkout/${state.userProfile.id}`,
+          url: `http://34.87.71.24/:3210/transaction/checkout/${state.userProfile.id}`,
           responseType: 'json',
           headers : {
             token : state.userProfile.token
@@ -143,6 +146,34 @@ export default new Vuex.Store({
           })
           .catch((err)=>{
             console.log(err)
+          })
+      },
+      googlelogin(context, payload){
+        console.log(payload);
+        console.log("masuk store google login");
+      
+        axios({
+          method: 'post',
+          url: 'http://34.87.71.24/:3210/user/googlelogin',
+          responseType: 'json',
+          data : {
+            token : payload
+          },
+          
+        })
+        .then( ({data}) => {
+          console.log(data);
+          // this.$store.commit('fetchUserProfile', data)
+          // this.$store.dispatch("getUserCart")
+          // this.dialog = false
+          // this.$router.push('/products')
+          })
+          .catch((err)=>{
+            console.log("erorrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+            
+            console.log(err);
+              this.errMesssage = err.response.data.message
+              
           })
       }
 

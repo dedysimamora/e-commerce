@@ -2,22 +2,22 @@
     <v-app id="motherofmother">
         <v-container style="margin-top:15%;">
             <v-layout row wrap>
-              <v-flex xs4 md4 id="landingText">
-                <p class="text-xs-center" > 
-                 <span class="redSendiri"> &nbsp;Man</span> with <br>  one <span class="redSendiri">Watch</span> knows what time it is, a man <br> with two Watches is never <span class="redSendiri">quite </span> sure
+              <v-flex xs4 md8 id="landingText">
+                <p class="text-xs-left" > 
+                 <span class="redSendiri"> &nbsp;MAN</span> with  one <span class="redSendiri">WATCH</span> knows  what time it is, a <span class="redSendiri"> MAN </span> with two Watches is never <span class="redSendiri">QUITE </span> sure
                 </p>
                
               </v-flex>
             </v-layout>
             <v-layout  row wrap style="margin-top:-8px;">
-              <v-flex xs1 md1 style="margin-left:5%;">
-                <loginForm ></loginForm>
+              <v-flex xs1 md2>
+                <loginForm :warnaprops="'white'" :bgcolorprops="'red'" ></loginForm>
               </v-flex>
-              <v-flex xs1 md1 style="margin-left:-2%">
+              <v-flex xs1 md2 >
                 <registerForm/>
               </v-flex>
-              <v-flex xs1 md1>
-                <a class="clink" router-link to="/shop"> Shop</a>
+              <v-flex xs1 md2>
+                <v-btn router-link to='/products' dark color="red"> SHOP </v-btn>
               </v-flex>
             </v-layout>
         </v-container>
@@ -50,14 +50,16 @@ import registerForm from '../components/registerForm'
     -o-background-size: cover;
   }
   #landingText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 35px;
+    font-weight: 900;
     color: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 15px;
   }
   .redSendiri{
-    font-family: 'Satisfy', cursive;
-    font-size: 20px;
-    margin-bottom: -10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 35px;
+    font-weight: 900;
+    margin-bottom: -30px;
     color: rgb(255, 38, 38);
     
   }

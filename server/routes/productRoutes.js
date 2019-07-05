@@ -6,7 +6,7 @@ const uploadImages = require('../helpers/uploadImages')
 
 route.get('/',productController.findAll)
 route.get('/:id', productController.findByPk)
-route.use(authentication)
+// route.use(authentication)
 route.post('/add',uploadImages.multer.single('photo'),uploadImages.sendUploadToGCS,productController.create)
 route.delete('/:id',authorization,productController.delete)
 route.put('/:id',authorization, productController.update)

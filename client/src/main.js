@@ -4,10 +4,20 @@ import App from './App.vue'
 import axios from 'axios'
 import router from './router'
 import store from './store'
+import VueSwal from 'vue-swal'
+import GAuth from 'vue-google-oauth2'
+const gauthOption = {
+  clientId: '950781414946-rtc042tvemni6gss0hqah9as2j9r85h7.apps.googleusercontent.com',
+  scope: 'profile',
+  prompt: 'select_account'
+}
+Vue.use(GAuth, gauthOption)
+ 
+Vue.use(VueSwal)
 
  
 Vue.prototype.axios = axios.create({
-  baseURL: `http://localhost:3000`
+  baseURL: `http://34.87.71.24/:3210`
 })
 
 Vue.config.productionTip = false

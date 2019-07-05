@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import loginForm from '../components/loginForm'
-import userAvatar from "../components/userAvatar"
+// import loginForm from '../components/loginForm'
+// import userAvatar from "../components/userAvatar"
 import navDrawer from '../components/navdrawer'
-import advert from "../components/advert"
-import cardProduct from '../components/cardProduct'
+// import advert from "../components/advert"
+// import cardProduct from '../components/cardProduct'
 import footera from '../components/footer'
 export default {
   data: () => ({
@@ -25,10 +25,6 @@ export default {
     
   },
   components: {
-    userAvatar,
-    advert,
-    loginForm,
-    cardProduct,
     navDrawer,
     footera
   },
