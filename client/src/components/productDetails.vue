@@ -28,7 +28,7 @@
                 </div>
               </v-card-title>
               <v-card-actions>
-                <v-btn @click="addToCart(product._id)" block dark color="black">Add To Cart</v-btn>
+                <v-btn @click="addToCart(product)" block dark color="black">Add To Cart</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -50,8 +50,27 @@ export default {
         formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
          },
-         addToCart(productId){
-             this.$store.dispatch('addUserCart', productId)
+         addToCart(product){
+
+
+           if(!localStorage.getItem('token')){
+            this.$swal('you must login for add item to cart')
+        } else {
+            this.$swal({
+          title: `Add ${product.name} to cart?`,
+          icon: product.photo,
+          buttons: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal(`${product.name} Success added to cart`, {
+                icon: "success",
+                
+              });
+             this.$store.dispatch('addUserCart', product._id)
+            }
+          })
+        }
          }
 
     },

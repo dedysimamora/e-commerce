@@ -2,19 +2,13 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="400px">
       <template v-slot:activator="{ on }">
-         <v-btn
+         <v-btn small
           :style="{ color: warnaprops, 'background-color': bgcolorprops }"
           dark
           v-on="on"
         >
           Login
         </v-btn>
-
-        
-
-       
-          <!-- <a class="clink"  v-on="on" >Login</a>  -->
-        <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
       </template>
       <v-card>
         <v-card-title >
@@ -38,9 +32,9 @@
           <v-flex  xs12>
           <v-btn block @click="login()" small color="black" dark>Login</v-btn>
           </v-flex>
-          <f-fxle xs12 class="mt-1">
+          <v-flex xs12 class="mt-1">
             <v-btn block @click="dialog = false" small color="black" dark>Cancel</v-btn>
-          </f-fxle>
+          </v-flex>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -72,30 +66,23 @@
         });
       },
       login(){
-        this.axios({
-        method: 'post',
-        url: '/user/login',
-        responseType: 'json',
-        data : {
-          email : this.email,
-          password : this.password
-        },
-        
-      })
-      .then( ({data}) => {
-        // console.log(data);
-        this.$store.commit('fetchUserProfile', data)
-        this.$store.dispatch("getUserCart")
-        this.dialog = false
-        this.$router.push('/products')
-        })
-        .catch((err)=>{
-          console.log(err);
-          
-            // console.log(err.response,"<<<<<<<<<<<<<");
-            this.errMesssage = err.response.data.message
-            
-        })
+       this.$store.dispatch('login',{
+         email : this.email,
+         password : this.password
+       })
+       .then(()=>{
+         this.dialog = false
+          this.$router.push('/products')
+       })
+       .catch((gotErrorData)=>{
+         if(gotErrorData.response){
+           this.errMesssage = gotErrorData.response.data.message
+         } else {
+           console.log(gotErrorData);
+           
+           this.errMesssage = "Opps, Something wrong in the server, sorry!"
+         }
+       })
 
       }
     }

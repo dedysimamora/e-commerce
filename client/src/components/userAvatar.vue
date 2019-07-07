@@ -16,9 +16,6 @@ export default {
         return {
             images : ''
         }
-    },
-    created:{
-        
     }
 }
 </script>

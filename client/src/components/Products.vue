@@ -3,7 +3,7 @@
       <advert style="margin-top:-5.3%;"></advert>
       <v-container fluid>
         <v-layout  justify-center row wrap>
-                <v-flex  xs12 md3 mx-1 my-1  v-for="product in this.$store.state.allProducts" :key="product.id">
+                <v-flex  xs12 sm3 md3 lg-4 mx-1 my-1  v-for="product in this.$store.state.allProducts" :key="product.id">
                   <cardProduct :pd="product"></cardProduct>
                 </v-flex>
 

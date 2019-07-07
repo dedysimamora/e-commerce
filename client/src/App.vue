@@ -47,4 +47,12 @@ export default {
   padding: 100px 20px 25px 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.swal-button {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: rgb(0, 0, 0);
+  font-size: 12px;
+  border: 1px solid #fdfdfd;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
 </style>

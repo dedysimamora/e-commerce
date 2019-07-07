@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios' 
+import { resolve } from 'url';
+import { rejects } from 'assert';
 
 Vue.use(Vuex)
 
@@ -14,7 +16,6 @@ export default new Vuex.Store({
           money : "",
           role : "",
           avatar : "",
-          token : ""
     },
     allProducts : [],
     cart : [],
@@ -22,7 +23,6 @@ export default new Vuex.Store({
   },
   mutations: {
     fetchUserProfile(state, gotData){
-          state.userProfile.token = gotData.token
           state.userProfile.first_name = gotData.first_name
           state.userProfile.last_name = gotData.last_name
           state.userProfile.email = gotData.email
@@ -32,7 +32,6 @@ export default new Vuex.Store({
           state.userProfile.avatar = gotData.avatar
       },
       logout(state){
-        state.userProfile.token = ""
         state.userProfile.first_name =""
         state.userProfile.last_name = ""
         state.userProfile.email = ""
@@ -40,6 +39,7 @@ export default new Vuex.Store({
         state.userProfile.money = ""
         state.userProfile.role = ""
         state.userProfile.avatar = ""
+        localStorage.clear()
       },
       fetchAllProducts(state, gotAlProducts){
             state.allProducts = gotAlProducts
@@ -55,7 +55,7 @@ export default new Vuex.Store({
       getAllProducts(context){
         axios({
           method: 'get',
-          url: 'http://34.87.71.24/:3210/product',
+          url: 'http://localhost:3210/product',
           responseType: 'json',
           
         })
@@ -68,17 +68,12 @@ export default new Vuex.Store({
       },
       getUserCart(context){
         let {commit, state} = context
-        console.log(state.userProfile.id, "userid pas find card")
-        console.log(`http://34.87.71.24/:3210/transaction/${state.userProfile.id}`, "link get find transsacion");
-        
-        
         axios({
           method : 'get',
-          url: `http://34.87.71.24/:3210/transaction/${state.userProfile.id}`,
+          url: `http://localhost:3210/transaction/${state.userProfile.id}`,
           responseType: 'json',
         })
           .then(({data}) =>{
-            console.log(data, "balikan data cart")
               commit('fetchUserCard', data)
               
           })
@@ -86,20 +81,61 @@ export default new Vuex.Store({
             console.log(err)
           })
       },
+      login(context, payload){
+        return new Promise((resolve,rejects)=>{
+          axios({
+            method: 'post',
+            url: 'http://localhost:3210/user/login',
+            responseType: 'json',
+            data : {
+              email : payload.email,
+              password : payload.password
+            },
+            
+          })
+          .then(({data}) => {
+            context.commit('fetchUserProfile', data)
+            context.dispatch("getUserCart")
+            localStorage.setItem('token', data.token)
+            resolve()
+            })
+            .catch((err)=>{
+              console.log(err)
+              rejects(err)
+            })
+        })
+        
+      },
+      getUserData(context, payload){
+        axios({
+          method: 'get',
+          url: 'http://localhost:3210/user/gotUserData',
+          responseType: 'json',
+         headers : {
+           token : payload
+         }
+          
+        })
+        .then(({data}) => {
+          context.commit('fetchUserProfile', data)
+          context.dispatch("getUserCart")
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+      },
+
       addUserCart(context, payload){
         let {state,dispatch} = context
-            
-            console.log(state.userProfile.token, "Tokennnn pas mau add to cart");
-        
         axios({
           method : 'post',
-          url: 'http://34.87.71.24/:3210/transaction/add',
+          url: 'http://localhost:3210/transaction/add',
           responseType: 'json',
           data : {
             productId : payload
           },
           headers : {
-            token : state.userProfile.token
+            token : localStorage.getItem('token')
           }
         })
           .then(() =>{
@@ -111,15 +147,13 @@ export default new Vuex.Store({
           })
       },
       deleteUserCart(context, payload){
-        console.log('Masuk delete Card');
-        
         let {state,dispatch} = context
         axios({
           method : 'delete',
-          url: `http://34.87.71.24/:3210/transaction/${payload}`,
+          url: `http://localhost:3210/transaction/${payload}`,
           responseType: 'json',
           headers : {
-            token : state.userProfile.token
+            token : localStorage.getItem('token')
           }
         })
           .then(() =>{
@@ -130,15 +164,13 @@ export default new Vuex.Store({
           })
       },
       checkOutCart(context){
-        console.log('Masuk checkout Card');
-        
         let {state,dispatch} = context
         axios({
           method : 'post',
-          url: `http://34.87.71.24/:3210/transaction/checkout/${state.userProfile.id}`,
+          url: `http://localhost:3210/transaction/checkout/${state.userProfile.id}`,
           responseType: 'json',
           headers : {
-            token : state.userProfile.token
+            token : localStorage.getItem('token')
           }
         })
           .then(() =>{
@@ -149,12 +181,9 @@ export default new Vuex.Store({
           })
       },
       googlelogin(context, payload){
-        console.log(payload);
-        console.log("masuk store google login");
-      
         axios({
           method: 'post',
-          url: 'http://34.87.71.24/:3210/user/googlelogin',
+          url: 'http://localhost:3210/user/googlelogin',
           responseType: 'json',
           data : {
             token : payload
@@ -162,15 +191,8 @@ export default new Vuex.Store({
           
         })
         .then( ({data}) => {
-          console.log(data);
-          // this.$store.commit('fetchUserProfile', data)
-          // this.$store.dispatch("getUserCart")
-          // this.dialog = false
-          // this.$router.push('/products')
           })
           .catch((err)=>{
-            console.log("erorrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-            
             console.log(err);
               this.errMesssage = err.response.data.message
               

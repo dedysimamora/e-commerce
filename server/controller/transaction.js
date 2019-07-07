@@ -59,8 +59,10 @@ class TransactionController {
                         productId : req.body.productId,
                         status: false,
                     }
+                    
                     Transaction.create(newTransaction)
                         .then((gotData) => {
+                            
                             res.status(201).json(gotData)
                         })
                         .catch(next)
@@ -73,8 +75,6 @@ class TransactionController {
     }
 
     static findByUserId(req,res,next){
-        console.log(req.params.userId)
-        console.log("masuk Cart");
         
         Transaction.find({UserId : req.params.userId, status:false})
         .populate('productId')

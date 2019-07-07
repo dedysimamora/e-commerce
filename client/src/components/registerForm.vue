@@ -2,15 +2,13 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="400px">
       <template v-slot:activator="{ on }">
-        <v-btn
-          color="red"
+       <v-btn small
+          :style="{ color: warnaprops, 'background-color': bgcolorprops }"
           dark
           v-on="on"
         >
           Register
         </v-btn>
-        <!-- <a class="clink" v-on="on">Register</a> -->
-        <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
       </template>
       <v-card>
         <v-card-title>
@@ -66,9 +64,9 @@
           <v-flex xs12>
           <v-btn block @click="register()" small color="black" dark>register</v-btn>
           </v-flex>
-          <f-fxle xs12 class="mt-1">
+          <v-flex xs12 class="mt-1">
             <v-btn block @click="dialog = false" small color="black" dark>Cancel</v-btn>
-          </f-fxle>
+          </v-flex>
           </v-layout>
           <!-- <v-flex xs12>
               <p>Or</p>
@@ -87,6 +85,7 @@ import axios from 'axios';
 import GoogleLogin from 'vue-google-login'
 
 export default {
+  props:['warnaprops', 'bgcolorprops'],
   data() {
     return {
         dialog: false,
@@ -156,7 +155,7 @@ export default {
       .then( ({data}) => {
         this.$store.commit('fetchUserProfile', data)
         this.dialog = false
-        this.$router.push('/shop')
+        this.$router.push('/products')
         })
         .catch( err =>{
           if(err.response.data.message === "Cannot read property 'cloudStoragePublicUrl' of undefined"){
@@ -176,6 +175,8 @@ export default {
     onFilePicked(e) {
 
       this.avatar = e.target.files[0]
+      console.log(this.avatar, "AAAAAAAAAAAAAAAAAAA");
+      
       const files = e.target.files
 			if(files[0] !== undefined) {
 				this.imageName = files[0].name

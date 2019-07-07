@@ -7,7 +7,7 @@ const client = new OAuth2Client(`${process.env.GOOGLESIGNINID}`)
 class UserController {
     static register(req, res, next) {
         let setAvatar = ''
-        if(req.file){
+        if(!req.file){
             setAvatar = 'http://cdn.onlinewebfonts.com/svg/img_569205.png'
         } else {
             setAvatar = req.file.cloudStoragePublicUrl
@@ -23,6 +23,9 @@ class UserController {
         address : req.body.address,
         role : "Customer",
         }
+
+
+
         
      
         User.create(newUser)
@@ -48,6 +51,35 @@ class UserController {
 
     }
 
+
+    static gotUserData(req, res, next) {
+        console.log("Masuk get user data di controller user");
+        
+        let decodeToken = jwt.decode(req.headers.token)
+        
+        User.findOne({
+                _id: decodeToken.id
+            })
+            .then((gotData) => {
+                if (!gotData) {
+                    throw ({
+                        code: 404,
+                        message: "  Not Found"
+                    })
+                } else {
+                        res.status(200).json({
+                            email : gotData.email,
+                            first_name : gotData.first_name,
+                            last_name : gotData.last_name,
+                            avatar : gotData.avatar,
+                            money : gotData.money,
+                            id : gotData.id,
+                            role : gotData.role
+                        })
+                }
+            })
+            .catch(next)
+    }
   
     static login(req, res, next) {
         User.findOne({

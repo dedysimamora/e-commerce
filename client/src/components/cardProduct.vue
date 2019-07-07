@@ -32,8 +32,25 @@ export default {
     },
     methods : {
       addToCart(products){
+        if(!localStorage.getItem('token')){
+            this.$swal('you must login for add item to cart')
+        } else {
+            this.$swal({
+          title: `Add ${products.name} to cart?`,
+          icon: products.photo,
+          buttons: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal(`${products.name} Success added to cart`, {
+                icon: "success",
+                
+              });
+              this.$store.dispatch('addUserCart', products._id)
+            }
+          })
+        }
         
-        this.$store.dispatch('addUserCart', products._id)
       },
        formatNumber(num) {
           return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')

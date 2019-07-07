@@ -5,57 +5,54 @@
       <v-toolbar-title class="font-weight-black">HackWatch</v-toolbar-title>
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" fixed app>
+
       <v-container>
 
-        <section v-if="this.$store.state.userProfile.token !== ''">
-          <v-layout row justify-center>
-          <v-flex xs12 class="ml-5 my-3">
-            <userAvatar :howBig="120"></userAvatar>
-          </v-flex>
-        </v-layout>
+<v-card v-if="this.$store.state.userProfile.first_name !== ''" class="mx-auto my-2" color="white" light flat>
 
-        <v-layout justify-center  style="margin-left:25%; margin-top:-2%;">
-          <v-flex 2>
+    <v-layout align-center column justify-center>
+            <v-flex>
+            <userAvatar  :howBig="120"></userAvatar>
+
+            </v-flex>
+             <v-flex  class="mt-2"> 
             <h1>
               {{this.$store.state.userProfile.first_name}}
               {{this.$store.state.userProfile.last_name}}
             </h1>
           </v-flex>
-        </v-layout>
-
+          <v-flex>
+            <h6 >{{this.$store.state.userProfile.email}}</h6>  
+          </v-flex>
         
-        <v-layout row>
-          <v-flex style="margin-left:32%; margin-top:-2%;">
-            <h6>{{this.$store.state.userProfile.email}}</h6>
-          </v-flex>
+    </v-layout>
+
+        <v-layout  justify-start column class="ml-2">
+          <h6 ><v-icon color="black" style="font-size:15px;">attach_money</v-icon> {{gotUserMoney}}</h6>
+          <h6><v-icon color="black" style="font-size:15px;">shopping_cart</v-icon> {{totalItemOnCart}}</h6>
+          
         </v-layout>
-        <v-layout row>
+  </v-card>
 
+  <v-layout column justify-center >
 
-          <v-flex class="ml-5" >
-            <h4><v-icon>attach_money</v-icon> {{this.$store.state.userProfile.money}}</h4>
-          </v-flex>
-        </v-layout>
-        </section>
+  
 
-        <v-layout justify-center row>
-          <v-flex v-if="this.$store.state.userProfile.role === 'Admin'" xs10 md9>
-            <v-btn @click="toAdminDashboard" small dark color="black">ADMIN DASHBOARD</v-btn>
-          </v-flex>
-        </v-layout>
+  <v-flex v-if="this.$store.state.userProfile.role === 'Admin'" xs12>
+    <v-btn style="margin-left:30%;" @click="toAdminDashboard" small dark color="black">ADMIN DASHBOARD</v-btn>
+  </v-flex>
 
-        <v-layout justify-center row>
-          <v-flex v-if="this.$store.state.userProfile.token !== ''" xs10 md7>
-            <v-btn @click="logout" dark color="black">Logout</v-btn>
+ <v-flex v-if="this.$store.state.userProfile.first_name !== ''" xs12 >
+            <v-btn small @click="logout" dark style="margin-left:30%;" color="black">Logout</v-btn>
           </v-flex>
           <v-flex v-else xs10 md6>
             <loginForm :warnaprops="'white'" :bgcolorprops="'black'" ></loginForm>
-            </v-flex>
+             <registerForm :warnaprops="'white'" :bgcolorprops="'black'" ></registerForm>
+            </v-flex> 
 
-        </v-layout>
-
-
-        <v-layout v-if="this.$store.state.userProfile.token !== '' && this.$store.state.userProfile.role !== 'Admin'">
+              
+  </v-layout>
+        <v-layout v-if="this.$store.state.userProfile.first_name !== '' && this.$store.state.userProfile.role !== 'Admin'">
           <v-flex xs12 md12>
 
                  <v-list dense>
@@ -259,6 +256,7 @@
 
 <script>
 import loginForm from '../components/loginForm'
+import registerForm from '../components/registerForm'
 import userAvatar from "../components/userAvatar"
 export default {
   data: () => ({
@@ -282,12 +280,19 @@ export default {
   components: {
     userAvatar,
     loginForm,
+    registerForm
   },
     computed: {
        totalItemOnCart : function () {
-            
             return this.$store.state.cart.length
-       } 
+       },
+       gotUserMoney : function(){
+         if(this.$store.state.userProfile.money === undefined){
+           return 0
+         } else {
+           return this.$store.state.userProfile.money
+         }
+       }
     }
 };
 </script>
