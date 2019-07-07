@@ -55,7 +55,7 @@ export default new Vuex.Store({
       getAllProducts(context){
         axios({
           method: 'get',
-          url: 'http://localhost:3210/product',
+          url: 'http://34.87.113.79:3000/product',
           responseType: 'json',
           
         })
@@ -70,7 +70,7 @@ export default new Vuex.Store({
         let {commit, state} = context
         axios({
           method : 'get',
-          url: `http://localhost:3210/transaction/${state.userProfile.id}`,
+          url: `http://34.87.113.79:3000/transaction/${state.userProfile.id}`,
           responseType: 'json',
         })
           .then(({data}) =>{
@@ -85,7 +85,7 @@ export default new Vuex.Store({
         return new Promise((resolve,rejects)=>{
           axios({
             method: 'post',
-            url: 'http://localhost:3210/user/login',
+            url: 'http://34.87.113.79:3000/user/login',
             responseType: 'json',
             data : {
               email : payload.email,
@@ -109,7 +109,7 @@ export default new Vuex.Store({
       getUserData(context, payload){
         axios({
           method: 'get',
-          url: 'http://localhost:3210/user/gotUserData',
+          url: 'http://34.87.113.79:3000/user/gotUserData',
           responseType: 'json',
          headers : {
            token : payload
@@ -129,7 +129,7 @@ export default new Vuex.Store({
         let {state,dispatch} = context
         axios({
           method : 'post',
-          url: 'http://localhost:3210/transaction/add',
+          url: 'http://34.87.113.79:3000/transaction/add',
           responseType: 'json',
           data : {
             productId : payload
@@ -150,7 +150,7 @@ export default new Vuex.Store({
         let {state,dispatch} = context
         axios({
           method : 'delete',
-          url: `http://localhost:3210/transaction/${payload}`,
+          url: `http://34.87.113.79:3000/transaction/${payload}`,
           responseType: 'json',
           headers : {
             token : localStorage.getItem('token')
@@ -167,7 +167,7 @@ export default new Vuex.Store({
         let {state,dispatch} = context
         axios({
           method : 'post',
-          url: `http://localhost:3210/transaction/checkout/${state.userProfile.id}`,
+          url: `http://34.87.113.79:3000/transaction/checkout/${state.userProfile.id}`,
           responseType: 'json',
           headers : {
             token : localStorage.getItem('token')
@@ -183,7 +183,7 @@ export default new Vuex.Store({
       googlelogin(context, payload){
         axios({
           method: 'post',
-          url: 'http://localhost:3210/user/googlelogin',
+          url: 'http://34.87.113.79:3000/user/googlelogin',
           responseType: 'json',
           data : {
             token : payload

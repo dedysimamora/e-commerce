@@ -17,7 +17,7 @@ Vue.use(VueSwal)
 
  
 Vue.prototype.axios = axios.create({
-  baseURL: `http://localhost:3210`
+  baseURL: `http://34.87.113.79:3000`
 })
 
 Vue.config.productionTip = false
