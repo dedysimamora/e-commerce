@@ -17,6 +17,7 @@
     "vue-google-oauth2": "^1.4.0",
     "vue-google-signin-button": "^1.0.4",
     "vue-google-signin-button-directive": "^1.0.3",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.0.3",
     "vue-swal": "^1.0.0",
     "vuetify": "^1.5.5",

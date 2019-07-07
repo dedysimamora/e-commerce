@@ -34,18 +34,18 @@
         </v-layout>
   </v-card>
 
-  <v-layout column justify-center >
+  <v-layout row wrap justify-center >
 
   
 
-  <v-flex v-if="this.$store.state.userProfile.role === 'Admin'" xs12>
-    <v-btn style="margin-left:30%;" @click="toAdminDashboard" small dark color="black">ADMIN DASHBOARD</v-btn>
+  <v-flex v-if="this.$store.state.userProfile.role === 'Admin'" xs12 md12>
+    <v-btn style="margin-left:30%;" @click="toAdminDashboard" small dark color="black">ADMIN</v-btn>
   </v-flex>
 
  <v-flex v-if="this.$store.state.userProfile.first_name !== ''" xs12 >
             <v-btn small @click="logout" dark style="margin-left:30%;" color="black">Logout</v-btn>
           </v-flex>
-          <v-flex v-else xs10 md6>
+          <v-flex v-else xs12 md5>
             <loginForm :warnaprops="'white'" :bgcolorprops="'black'" ></loginForm>
              <registerForm :warnaprops="'white'" :bgcolorprops="'black'" ></registerForm>
             </v-flex> 
